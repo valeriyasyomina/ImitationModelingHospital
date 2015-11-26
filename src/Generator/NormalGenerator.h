@@ -16,6 +16,7 @@ public:
     ~NormalGenerator() {}
 
     double GenerateValue();
+    void SetMatExp(double matExp) {this->matExp = matExp;}
 protected:
     double TransformValueIntoBorders(double value);
 

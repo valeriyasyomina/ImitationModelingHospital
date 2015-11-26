@@ -10,9 +10,13 @@ public:
     StatisticsBlock() {}
     ~StatisticsBlock() {}
 
-    void CollectStatistics(int requestProcessedNumber, int requestDropNumber);
+    void CollectStatistics(int patientsNumberFirstQueue, int patientsNumberSecondQueue,
+                           bool surgeonStatus, bool dentistStatus, bool physicianStatus, bool ophtStatus,
+                           bool xRayStatus, bool treatStatus, int dropPatientsNumber, int servicedPatientsNumber);
 signals:
-    void CollectStatisticsSignal(double requestDropKoff);
+    void CollectStatisticsSignal(int patientsNumberFirstQueue, int patientsNumberSecondQueue,
+                                 bool surgeonStatus, bool dentistStatus, bool physicianStatus, bool ophtStatus,
+                                 bool xRayStatus, bool treatStatus, int dropPatientsNumber, int servicedPatientsNumber);
 };
 
 #endif // STATISTICSBLOCK_H

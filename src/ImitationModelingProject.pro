@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     Generator/NormalGenerator.cpp \
     ProcessingUnit/ProcessingUnit.cpp \
     StatisticsBlock/StatisticsBlock.cpp \
-    Patient/Patient.cpp
+    Patient/Patient.cpp \
+    MedicalEntity/MedicalEntity.cpp
 
 HEADERS  += mainwindow.h \
     Queue/QueueElement.h \
@@ -42,12 +43,16 @@ HEADERS  += mainwindow.h \
     Exception/QueueEmptyException.h \
     InformationSource/InformationSourceUniform.h \
     Patient/Patient.h \
-    MedicalOfficer/MedicalOfficer.h \
     Doctor/Doctor.h \
     MedicalReceptionist/MedicalReceptionist.h \
     Doctor/Dentist.h \
     Doctor/Ophthalmologist.h \
     Doctor/Surgeon.h \
-    Doctor/Physician.h
+    Doctor/Physician.h \
+    MedicalEntity/MedicalEntity.h \
+    MedicalEntity/MedicalEntityQueued.h \
+    Cabinet/Cabinet.h \
+    Cabinet/TreatmentRoom.h \
+    Cabinet/XRayRoom.h
 
 FORMS    += mainwindow.ui

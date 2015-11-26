@@ -1,8 +1,10 @@
 #include "StatisticsBlock.h"
 
-void StatisticsBlock::CollectStatistics(int requestProcessedNumber, int requestDropNumber)
+void StatisticsBlock::CollectStatistics(int patientsNumberFirstQueue, int patientsNumberSecondQueue,
+                                        bool surgeonStatus, bool dentistStatus, bool physicianStatus, bool ophtStatus,
+                                        bool xRayStatus, bool treatStatus, int dropPatientsNumber, int servicedPatientsNumber)
 {
-    double requestDropKoff = requestDropNumber + requestProcessedNumber == 0 ?
-                0.0 : (double) requestDropNumber / (requestDropNumber + requestProcessedNumber);
-    emit CollectStatisticsSignal(requestDropKoff);
+    emit CollectStatisticsSignal(patientsNumberFirstQueue, patientsNumberSecondQueue,
+                                 surgeonStatus, dentistStatus, physicianStatus, ophtStatus,
+                                 xRayStatus, treatStatus, dropPatientsNumber, servicedPatientsNumber);
 }

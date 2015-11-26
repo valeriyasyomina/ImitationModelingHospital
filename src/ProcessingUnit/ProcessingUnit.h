@@ -25,6 +25,8 @@ public:
     }
     virtual ~ProcessingUnit() {}
 
+    virtual void SetA(double a) {this->a = a;}
+    virtual void SetB(double b) {this->b = b;}
     virtual double GetProcessTime();
     virtual bool HasAssignedRequest() const {return requestWasAssigned;}
     virtual void SetRequestAssigned(bool requestAssigned) {requestWasAssigned = requestAssigned;}

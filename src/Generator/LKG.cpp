@@ -20,7 +20,7 @@ double LKG::Generator(double previousValue)
 double LKG::TransformValueIntoBorders(double value, int lowBorder, int highBorder)
 {
     double interval = highBorder - lowBorder;
-    while (value > highBorder)
+    while (value >= highBorder)
         value -= interval;
     while (value < lowBorder)
         value += interval;

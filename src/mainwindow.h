@@ -22,8 +22,12 @@ private slots:
     void on_btnStartModeling_clicked();
 
 public slots:
-    void StatisticsCollected(double requestDropKoff);
+    void StatisticsCollected(int patientsNumberFirstQueue, int patientsNumberSecondQueue,
+                             bool surgeonStatus, bool dentistStatus, bool physicianStatus, bool ophtStatus,
+                             bool xRayStatus, bool treatStatus, int dropPatientsNumber, int servicedPatientsNumber,
+                             const QString& currentTime);
     void ModelingFinished();
+    void PatientKoffs(double, double, double, double);
 private:
     Ui::MainWindow *ui;
 };

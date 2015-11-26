@@ -1,20 +1,18 @@
 #ifndef MEDICALRECEPTIONIST_H
 #define MEDICALRECEPTIONIST_H
 
-#include "../MedicalOfficer/MedicalOfficer.h"
+#include "../MedicalEntity/MedicalEntity.h"
 #include "../Patient/Patient.h"
 
-class MedicalReceptionist : public MedicalOfficer
+class MedicalReceptionist : public MedicalEntity
 {
-protected:
-    Patient patient;
 public:
-    MedicalReceptionist(): MedicalOfficer(){}
-    MedicalReceptionist(double a, double b) : MedicalOfficer(a, b) {}
+    MedicalReceptionist(): MedicalEntity(){}
+    MedicalReceptionist(double a, double b) : MedicalEntity(a, b) {}
 
     ~MedicalReceptionist() {}
 
-    virtual void StartServicingPatient(const Patient& patient)
+  /*  virtual void StartServicingPatient(const Patient& patient)
     {
         this->patient = patient;
         this->StartServicePatient();
@@ -23,7 +21,7 @@ public:
     {
         this->StopServicePatient();
         return patient;
-    }
+    }*/
 };
 
 

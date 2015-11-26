@@ -15,6 +15,7 @@ public:
     virtual ~InformationSource() {}
 
     virtual double GenerateRequestTime() {return normalGenerator.GenerateValue();}
+    virtual void SetMatExp(double matExp) {normalGenerator.SetMatExp(matExp);}
 
 };
 

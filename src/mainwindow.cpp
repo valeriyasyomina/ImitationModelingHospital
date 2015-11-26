@@ -6,12 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(Singleton::Instance().GetControlProgram(), SIGNAL(StatisticsCollectedSignal(double)), this,
-            SLOT(StatisticsCollected(double)));
+    connect(Singleton::Instance().GetControlProgram(),
+            SIGNAL(StatisticsCollectedSignal(int,int,bool,bool,bool,bool,bool,bool,int,int,QString)),
+            this, SLOT(StatisticsCollected(int,int,bool,bool,bool,bool,bool,bool,int,int,QString)));
     connect(Singleton::Instance().GetControlProgram(), SIGNAL(ModelingFinishedSignal()), this,
             SLOT(ModelingFinished()));
-
-    ui->lblRequestDropKoff->setText("");
+    connect(Singleton::Instance().GetControlProgram(), SIGNAL(PatientKoffsSignal(double,double,double,double)), this,
+            SLOT(PatientKoffs(double,double,double,double)));
+    ui->lstStatistics->clear();
+    ui->lblPatientsKoffs->setText("");
 }
 
 MainWindow::~MainWindow()
@@ -23,37 +26,14 @@ void MainWindow::on_btnStartModeling_clicked()
 {
     try
     {
-        if (ui->edtMaxMemorySize->text() == "" || ui->edtAInfSource->text() == "" ||
-                ui->edtBInfSource->text() == "" || ui->edtAFirstOperator->text() == "" ||
-                ui->edtBFirstOperator->text() == "" || ui->edtASecondOperator->text() == "" ||
-                ui->edtBSecondOperator->text() == "" || ui->edtAThirdOperator->text() == "" ||
-                ui->edtBThirdOperator->text() == "" || ui->edtRequestToBeProcessed->text() == "")
+        if (ui->edtModelingTime->text() == "")
             QMessageBox::information(this, "Error", "You have not inputed all data!", QMessageBox::Ok);
         else
         {
-            int maxMemorySize = ui->edtMaxMemorySize->text().toInt();
-            double aFirstOperator = ui->edtAFirstOperator->text().toDouble();
-            double bFirstOperator = ui->edtBFirstOperator->text().toDouble();
-            double aSecondOperator = ui->edtASecondOperator->text().toDouble();
-            double bSecondOperator = ui->edtBSecondOperator->text().toDouble();
-            double aThirdOperator = ui->edtAThirdOperator->text().toDouble();
-            double bThirdOperator = ui->edtBThirdOperator->text().toDouble();
-
-            double aInfSource = ui->edtAInfSource->text().toDouble();
-            double bInfSource = ui->edtBInfSource->text().toDouble();
-
-            int requestNumberToBeProcessed = ui->edtRequestToBeProcessed->text().toInt();
-
-          /*  Singleton::Instance().GetControlProgram()->ConfigureSystem(maxMemorySize, aFirstOperator, bFirstOperator,
-                                                                       aSecondOperator, bSecondOperator, aThirdOperator,
-                                                                       bThirdOperator, aInfSource, bInfSource,
-                                                                       requestNumberToBeProcessed);
-            */
-
-            Singleton::Instance().GetControlProgram()->ConfigureSystem(10, 20, 5, 10, 30, 60, 20, 50, 10, 30, 10, 20, 9, 2,
-                                                                       10, 100);
+            double endModelingTime = ui->edtModelingTime->text().toDouble();
+            Singleton::Instance().GetControlProgram()->ConfigureSystem(10, 20, 10, 20, 10, 30, 20, 40, 10, 20, 10, 15, 10, 20,
+                                                                       5, 15, 1, 1, 15, endModelingTime);
             Singleton::Instance().GetControlProgram()->StartModeling();
-
         }
     }
     catch (Exception& exception)
@@ -67,7 +47,41 @@ void MainWindow::ModelingFinished()
     QMessageBox::information(this, "Процесс завершен", "Процесс моделирования завершен", QMessageBox::Ok);
 }
 
-void MainWindow::StatisticsCollected(double requestDropKoff)
+void MainWindow::StatisticsCollected(int patientsNumberFirstQueue, int patientsNumberSecondQueue,
+                                     bool surgeonStatus, bool dentistStatus, bool physicianStatus, bool ophtStatus,
+                                     bool xRayStatus, bool treatStatus, int dropPatientsNumber, int servicedPatientsNumber,
+                                     const QString& currentTime)
 {
-    ui->lblRequestDropKoff->setText("Коэффициент потерь = " + QString::number(requestDropKoff));
+    QString surgeonStatusStr = (surgeonStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+    QString dentistStatusStr = (dentistStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+    QString physicianStatusStr = (physicianStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+    QString ophtStatusStr = (ophtStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+    QString xRayStatusStr = (xRayStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+    QString treatStatusStr = (treatStatus) ? "Обслуживает пациента\n" : "Не занят\n";
+
+    QString strInfo = currentTime + "\n" +
+            "----------------------------------------------------------------------------\n" +
+            "Количество пациентов в первой очереди = " + QString::number(patientsNumberFirstQueue) + "\n" +
+            "Количество пациентов во второй очереди = " + QString::number(patientsNumberSecondQueue) + "\n" +
+            "Статус хирурга = " + surgeonStatusStr +
+            "Статус стоматолога = " + dentistStatusStr +
+            "Статус терапевта = " + physicianStatusStr +
+            "Статус окулиста = " + ophtStatusStr +
+            "Статус рентген-кабинета = " + xRayStatusStr +
+            "Статус процедурного кабинета = " + treatStatusStr +
+            "Количество необслуженных пациентов = " + QString::number(dropPatientsNumber) + "\n" +
+            "Количество обслуженных пациентов = " + QString::number(servicedPatientsNumber) + "\n";
+    ui->lstStatistics->addItem(strInfo);
+}
+
+void MainWindow::PatientKoffs(double firstInterval, double secondInterval, double thirdInterval,
+                                    double fourthInterval)
+{
+    QString strPatientsKoff = "Процент пациентов с 08.00 до 10.00 = " + QString::number(firstInterval * 100) + "\n" +
+                      "Процент пациентов с 10.00 до 13.00 = " + QString::number(secondInterval * 100) + "\n" +
+                      "Процент пациентов с 13.00 до 17.00 = " + QString::number(thirdInterval * 100) + "\n" +
+                      "Процент пациентов после 17.00 = " + QString::number(fourthInterval * 100) + "\n";
+
+    ui->lblPatientsKoffs->setText(strPatientsKoff);
+
 }

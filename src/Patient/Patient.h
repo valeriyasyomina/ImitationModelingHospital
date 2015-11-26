@@ -30,6 +30,7 @@ public:
     ~Patient() {}
 
     int GetServiceType() const {return service;}
+    void SetServiceType(int serviceType) {service = serviceType;}
     double GetPreviousGeneratedValue() const {return previousServiceType;}
 protected:
     virtual int GetServiceType(int lowBorderService, int highBorderService);
