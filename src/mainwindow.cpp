@@ -31,7 +31,7 @@ void MainWindow::on_btnStartModeling_clicked()
         else
         {
             double endModelingTime = ui->edtModelingTime->text().toDouble();
-            Singleton::Instance().GetControlProgram()->ConfigureSystem(10, 20, 10, 20, 10, 30, 20, 40, 10, 20, 10, 15, 10, 20,
+            Singleton::Instance().GetControlProgram()->ConfigureSystem(3, 6, 3, 6, 10, 30, 20, 40, 10, 20, 10, 15, 10, 20,
                                                                        5, 15, 1, 1, 15, endModelingTime);
             Singleton::Instance().GetControlProgram()->StartModeling();
         }
@@ -77,10 +77,10 @@ void MainWindow::StatisticsCollected(int patientsNumberFirstQueue, int patientsN
 void MainWindow::PatientKoffs(double firstInterval, double secondInterval, double thirdInterval,
                                     double fourthInterval)
 {
-    QString strPatientsKoff = "Процент пациентов с 08.00 до 10.00 = " + QString::number(firstInterval * 100) + "\n" +
-                      "Процент пациентов с 10.00 до 13.00 = " + QString::number(secondInterval * 100) + "\n" +
-                      "Процент пациентов с 13.00 до 17.00 = " + QString::number(thirdInterval * 100) + "\n" +
-                      "Процент пациентов после 17.00 = " + QString::number(fourthInterval * 100) + "\n";
+    QString strPatientsKoff = "Процент прибывших пациентов с 08.00 до 10.00 = " + QString::number(firstInterval * 100) + "\n" +
+                      "Процент прибывших пациентов с 10.00 до 13.00 = " + QString::number(secondInterval * 100) + "\n" +
+                      "Процент прибывших пациентов с 13.00 до 17.00 = " + QString::number(thirdInterval * 100) + "\n" +
+                      "Процент прибывших пациентов после 17.00 = " + QString::number(fourthInterval * 100) + "\n";
 
     ui->lblPatientsKoffs->setText(strPatientsKoff);
 
